@@ -1,0 +1,7 @@
+{
+  "name": "pokemon-album",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
