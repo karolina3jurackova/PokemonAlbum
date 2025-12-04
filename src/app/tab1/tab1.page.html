@@ -1,17 +1,33 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+    <ion-title>Moje Pokémon karty</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">Moje Pokémon karty</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-list>
+    <ion-item button detail="true" *ngFor="let card of cards" (click)="openDetail(card)">
+      <ion-thumbnail slot="start">
+        <ion-img [src]="card.imageWebviewPath"></ion-img>
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ card.name }}</h2>
+        <p>
+          Typ: {{ card.type }} | Rarita: {{ card.rarity }} | HP: {{ card.hp }}
+        </p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item *ngIf="cards.length === 0">
+      <ion-label>
+        Nemáš žiadne karty. Pridaj nejakú v záložke „Nová Pokémon karta“.
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

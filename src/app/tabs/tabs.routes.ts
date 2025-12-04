@@ -1,3 +1,4 @@
+// src/app/tabs/tabs.routes.ts
 import { Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 
@@ -21,6 +22,7 @@ export const routes: Routes = [
         loadComponent: () =>
           import('../tab3/tab3.page').then((m) => m.Tab3Page),
       },
+      // keď sme už vo /tabs, prázdnu cestu pošli na tab1
       {
         path: '',
         redirectTo: '/tabs/tab1',
@@ -28,6 +30,7 @@ export const routes: Routes = [
       },
     ],
   },
+  // root URL "/" pošli na /tabs/tab1
   {
     path: '',
     redirectTo: '/tabs/tab1',
