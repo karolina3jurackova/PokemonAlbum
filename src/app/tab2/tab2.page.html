@@ -1,38 +1,64 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Nová Pokémon karta</ion-title>
-  </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-item>
-    <ion-input label="Názov Pokémona" labelPlacement="floating" [(ngModel)]="name" name="name">
-    </ion-input>
-  </ion-item>
+<ion-content [fullscreen]="true">
+  <div class="tab2-page">
 
-  <ion-item>
-    <ion-input label="Typ (Fire, Water...)" labelPlacement="floating" [(ngModel)]="type" name="type">
-    </ion-input>
-  </ion-item>
+    <!-- HORNÁ ČASŤ – tréner + nadpis -->
+    <div class="tab2-top">
+      <img src="assets/trainer.png" alt="Pokémon tréner" class="trainer-hero" />
 
-  <ion-item>
-    <ion-input label="Rarita (Common, Rare...)" labelPlacement="floating" [(ngModel)]="rarity" name="rarity">
-    </ion-input>
-  </ion-item>
+      <h1 class="tab2-title">
+        Pridaj Pokémon kartičku
+      </h1>
+    </div>
 
-  <ion-item>
-    <ion-input type="number" label="HP" labelPlacement="floating" [(ngModel)]="hp" name="hp">
-    </ion-input>
-  </ion-item>
+    <!-- SPODNÁ BIELA „SHEET“ PLOCHA -->
+    <section class="tab2-sheet">
+      <div class="sheet-inner">
 
-  <div class="ion-text-center ion-margin">
-    <ion-img *ngIf="previewPath" [src]="previewPath"></ion-img>
-    <ion-button type="button" (click)="takePhoto()">
-      ODFOTIŤ KARTIČKU
-    </ion-button>
+        <!-- Názov -->
+        <div class="field-card">
+          <ion-input class="field-input" [(ngModel)]="name" name="name" placeholder="Názov Pokémona">
+          </ion-input>
+        </div>
+
+        <!-- Typ -->
+        <div class="field-card">
+          <ion-input class="field-input" [(ngModel)]="type" name="type" placeholder="Typ">
+          </ion-input>
+        </div>
+
+        <!-- Rarita -->
+        <div class="field-card">
+          <ion-input class="field-input" [(ngModel)]="rarity" name="rarity" placeholder="Rarita">
+          </ion-input>
+        </div>
+
+        <!-- HP -->
+        <div class="field-card">
+          <ion-input class="field-input" type="number" [(ngModel)]="hp" name="hp" placeholder="HP">
+          </ion-input>
+        </div>
+
+        <!-- náhľad fotky (voliteľný, nie je v predlohe, ale necháme ho) -->
+        <div class="preview-wrapper" *ngIf="previewPath">
+          <ion-img [src]="previewPath" class="preview-image"></ion-img>
+        </div>
+
+        <!-- tlačidlá -->
+        <div class="buttons-wrapper">
+          <ion-button type="button" fill="outline" expand="block" (click)="takePhoto()">
+            Odfotiť / vybrať fotku
+          </ion-button>
+
+          <ion-button expand="block" class="save-button" (click)="onSave()">
+            Uložiť kartu
+          </ion-button>
+        </div>
+
+      </div>
+    </section>
+
   </div>
-
-  <ion-button expand="block" (click)="onSave()">
-    ULOŽIŤ KARTU
-  </ion-button>
 </ion-content>

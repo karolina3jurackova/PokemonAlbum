@@ -35,3 +35,47 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+:root {
+    /* základné farby témy */
+    --ion-background-color: #f6ecff;
+    --ion-text-color: #1f1633;
+
+    /* Ionic primary farba – použije sa na tlačidlá, odkazy atď. */
+    --ion-color-primary: #a855f7;
+    --ion-color-primary-rgb: 168, 85, 247;
+    --ion-color-primary-contrast: #ffffff;
+    --ion-color-primary-contrast-rgb: 255, 255, 255;
+    --ion-color-primary-shade: #944ce0;
+    --ion-color-primary-tint: #b569f8;
+
+    /* secondary (trochu ružová) */
+    --ion-color-secondary: #ec4899;
+    --ion-color-secondary-rgb: 236, 72, 153;
+    --ion-color-secondary-contrast: #ffffff;
+    --ion-color-secondary-contrast-rgb: 255, 255, 255;
+    --ion-color-secondary-shade: #d54188;
+    --ion-color-secondary-tint: #ee5ba3;
+
+    /* naše vlastné helpery */
+    --pokemon-card-bg: #5b21b6;
+    --pokemon-card-radius: 24px;
+}
+
+/* pastelové fialové pozadie všade */
+ion-content {
+    --background: radial-gradient(circle at top, #f9e6ff, #e8ddff 40%, #fdf7ff 100%);
+}
+
+/* aby sa všetko nedotýkalo okrajov */
+.page-padding {
+    padding: 16px;
+}
+
+/* toolbar – svetlý a jemný */
+ion-header ion-toolbar {
+    --background: transparent;
+    --border-color: transparent;
+    color: #1f1633;
+    box-shadow: none;
+}

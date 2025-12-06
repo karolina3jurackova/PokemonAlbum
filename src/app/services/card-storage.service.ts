@@ -27,6 +27,11 @@ export class CardStorageService {
         await this.save();
     }
 
+    async delete(uuid: string) {
+        this.cards = this.cards.filter((c) => c.uuid !== uuid);
+        await this.save();
+    }
+
     async clear() {
         this.cards = [];
         await this.save();

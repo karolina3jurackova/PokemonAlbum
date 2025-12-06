@@ -25,7 +25,7 @@ export class PhotoService {
   public async addNewToGallery() {
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
-      source: CameraSource.Prompt,   // 👈 ponúkne fotoaparát alebo galériu
+      source: CameraSource.Prompt,
       quality: 100,
     });
 

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';   // 👈 Router
 import { CardStorageService } from '../services/card-storage.service';
 import { PokemonCard } from '../models/pokemon-card.model';
 
@@ -17,6 +17,7 @@ export class CardDetailPage {
 
     constructor(
         private route: ActivatedRoute,
+        private router: Router,                 // 👈 injektuj Router
         private cardStorage: CardStorageService
     ) { }
 
@@ -26,5 +27,19 @@ export class CardDetailPage {
 
         await this.cardStorage.load();
         this.card = this.cardStorage.cards.find((c) => c.uuid === id);
+    }
+
+    async deleteCard() {
+        if (!this.card) {
+            return;
+        }
+
+        const ok = confirm(`Naozaj chceš zmazať kartičku „${this.card.name}“?`);
+        if (!ok) return;
+
+        await this.cardStorage.delete(this.card.uuid);
+
+        // návrat na zoznam
+        this.router.navigate(['/tabs', 'tab1']);
     }
 }

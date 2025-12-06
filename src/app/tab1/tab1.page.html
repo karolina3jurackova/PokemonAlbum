@@ -1,33 +1,35 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Moje Pokémon karty</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Moje Pokémon karty</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="tab1-wrapper">
 
-  <ion-list>
-    <ion-item button detail="true" *ngFor="let card of cards" (click)="openDetail(card)">
-      <ion-thumbnail slot="start">
-        <ion-img [src]="card.imageWebviewPath"></ion-img>
-      </ion-thumbnail>
-      <ion-label>
-        <h2>{{ card.name }}</h2>
-        <p>
-          Typ: {{ card.type }} | Rarita: {{ card.rarity }} | HP: {{ card.hp }}
-        </p>
-      </ion-label>
-    </ion-item>
+    <!-- HORNÁ FIALOVÁ HERO ČASŤ – IBA LOGÁ -->
+    <section class="hero">
+      <img src="assets/pokemon.png" class="logo-main" alt="Pokémon logo" />
+      <img src="assets/album.png" class="logo-album" alt="Album logo" />
+    </section>
 
-    <ion-item *ngIf="cards.length === 0">
-      <ion-label>
-        Nemáš žiadne karty. Pridaj nejakú v záložke „Nová Pokémon karta“.
-      </ion-label>
-    </ion-item>
-  </ion-list>
+    <!-- SEARCH + CARDS UŽ MIMO HERO, POD FIALOVÝM BLOKOM -->
+    <div class="search-block">
+      <ion-searchbar [(ngModel)]="searchTerm" placeholder="Hľadaj podľa mena..." class="search-input">
+      </ion-searchbar>
+
+      <div class="card-count">
+        <span class="label">Cards</span>
+        <span class="value">{{ filteredCards.length }}</span>
+      </div>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div *ngIf="filteredCards.length === 0" class="empty">
+      Zatiaľ tu nemáš žiadne kartičky.<br />
+      Pridaj svojho prvého pokémona! &lt;3
+    </div>
+
+    <!-- GRID S KARTAMI -->
+    <div class="grid" *ngIf="filteredCards.length > 0">
+      <button class="card-btn" *ngFor="let card of filteredCards" (click)="openDetail(card)">
+        <img [src]="card.imageWebviewPath" class="card-img" />
+      </button>
+    </div>
+
+  </div>
 </ion-content>

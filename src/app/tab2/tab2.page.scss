@@ -1,0 +1,143 @@
+.tab2-page {
+    min-height: 100vh;
+    /* bolo 100% – dáme celú výšku okna */
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+}
+
+/* malý horný title v toolbare */
+.top-title {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #a5b4fc;
+}
+
+/* horná časť – tréner + nadpis */
+
+.tab2-top {
+    padding: 12px 16px 4px;
+    text-align: center;
+}
+
+.trainer-hero {
+    width: 170px;
+    /* bolo 140px – mierne väčší */
+    max-width: 60%;
+    display: block;
+    margin: 0 auto 10px;
+    /* trochu väčší rozostup od nadpisu */
+}
+
+/* veľký nadpis ako v ukážke */
+.tab2-title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 800;
+    color: #111827;
+}
+
+/* spodný biely „sheet“ */
+
+.tab2-sheet {
+    background: #ffffff;
+    border-radius: 40px 40px 0 0;
+    margin-top: 24px;
+    /* bolo 12px – sheet ide nižšie */
+    box-shadow: 0 -4px 24px rgba(15, 23, 42, 0.12);
+    flex: 1;
+}
+
+.sheet-inner {
+    padding: 33px 16px 10px;
+    /* zmenšený bottom padding */
+}
+
+/* tenké svetlofialové bloky */
+
+.field-card {
+    background: #f4f0ff;
+    border-radius: 18px;
+    padding: 6px 14px;
+    /* menšie vnútorné odsadenie */
+    margin-bottom: 10px;
+    /* menší rozostup */
+}
+
+/* samotný input – tenký, placeholder ako text */
+
+.field-input {
+    --background: transparent;
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 4px;
+    --padding-bottom: 4px;
+    --color: #111827;
+    --placeholder-color: #111827;
+    font-size: 14px;
+}
+
+/* náhľad fotky – nech je, ale kompaktný */
+
+.preview-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 10px;
+}
+
+.preview-image {
+    max-width: 180px;
+    border-radius: 14px;
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.3);
+}
+
+/* tlačidlá */
+
+.buttons-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+/* spoločný štýl tlačidiel */
+
+ion-button {
+    height: 44px;
+    /* menšie tlačidlá */
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --border-radius: 999px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-size: 14px;
+}
+
+
+/* horné – outline s hrubším okrajom */
+
+.outline-btn {
+    --border-color: #9f5bff;
+    --border-width: 3px;
+    --color: #7c3aed;
+    /* tieň dole pod buttonom */
+    box-shadow: 0 8px 16px rgba(129, 140, 248, 0.45);
+}
+
+/* outline tlačidlo – biele pozadie + fialový okraj */
+.outline-btn::part(native) {
+    background: #ffffff;
+    box-shadow: 0 8px 16px rgba(129, 140, 248, 0.35);
+}
+
+/* spodný plný fialový button */
+
+.primary-btn {
+    --background: #8b5cf6;
+    --background-hover: #7c3aed;
+    --background-activated: #6d28d9;
+    --color: #ffffff;
+    box-shadow: 0 12px 20px rgba(124, 58, 237, 0.5);
+}

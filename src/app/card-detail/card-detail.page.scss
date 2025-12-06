@@ -1,0 +1,162 @@
+.detail-page {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: calc(100vh - 56px);
+    display: flex;
+    flex-direction: column;
+}
+
+/* -------------------------------------- */
+/* VRCH – FIALOVÝ BACKGROUND S KARTOU */
+/* -------------------------------------- */
+.hero-section {
+    background: radial-gradient(circle at top, #a082e5, #0d0616c1);
+    position: relative;
+    padding: 16px 20px 18px;
+    flex: 0 0 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* SLOT PRE KARTU – sedí nad všetkým ostatným */
+.card-slot {
+    max-width: 280px;
+    margin: 0 auto;
+    background: rgba(46, 56, 199, 0.18);
+    border-radius: 24px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 3 / 4;
+
+    position: relative;
+    z-index: 2;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 18px;
+    box-shadow: 0 18px 30px rgba(15, 23, 42, 0.7);
+}
+
+/* -------------------------------------- */
+/* SPODOK – KRÉMOVÝ SHEET S INFOM */
+/* -------------------------------------- */
+.info-sheet {
+    background: #fdfbff;
+    border-radius: 24px 24px 0 0;
+    padding: 16px 20px 18px;
+    margin-top: -10px;
+
+    box-shadow: 0 20px 35px rgba(15, 23, 42, 0.18);
+    border-top: 1px solid rgba(229, 231, 235, 0.9);
+
+    position: relative;
+    z-index: 1;
+
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.sheet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.card-name {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.card-subtitle {
+    margin: 2px 0 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.chips-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.chip {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(249, 250, 251, 0.9);
+    border: 1px solid rgba(209, 213, 219, 0.9);
+    color: #374151;
+}
+
+.chip.type {
+    background: rgba(129, 140, 248, 0.16);
+    border-color: rgba(129, 140, 248, 0.7);
+}
+
+.chip.rarity {
+    background: rgba(236, 72, 153, 0.16);
+    border-color: rgba(236, 72, 153, 0.7);
+}
+
+/* textový popis */
+.card-description {
+    margin: 0 0 14px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #6b7280;
+}
+
+/* spodný riadok: HP + delete button */
+.sheet-bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+/* HP pilulka vľavo – ako „cena“ na kartách */
+.hp-pill {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 18px;
+    background: #ede9fe;
+    color: #4c1d95;
+}
+
+.hp-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.7;
+}
+
+.hp-value {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* zaoblené červené tlačidlo vpravo */
+.delete-button {
+    --border-radius: 999px;
+    --background: #ef4444;
+    --background-hover: #dc2626;
+    --box-shadow: 0 16px 32px rgba(248, 113, 113, 0.7);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+}

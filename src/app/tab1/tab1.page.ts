@@ -1,5 +1,7 @@
+// src/app/tab1/tab1.page.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 
@@ -11,10 +13,11 @@ import { PokemonCard } from '../models/pokemon-card.model';
   standalone: true,
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, FormsModule, IonicModule],
 })
 export class Tab1Page {
   cards: PokemonCard[] = [];
+  searchTerm = '';
 
   constructor(
     private cardStorage: CardStorageService,
@@ -24,6 +27,24 @@ export class Tab1Page {
   async ionViewWillEnter() {
     await this.cardStorage.load();
     this.cards = this.cardStorage.cards;
+  }
+
+  // volá sa zo searchbaru
+  onSearch(event: CustomEvent) {
+    this.searchTerm = (event.detail?.value || '').toString();
+  }
+
+  // karty zobrazené v gride
+  get filteredCards(): PokemonCard[] {
+    const term = this.searchTerm.toLowerCase().trim();
+    if (!term) return this.cards;
+
+    return this.cards.filter((c) =>
+      (c.name && c.name.toLowerCase().includes(term)) ||
+      (c.type && c.type.toLowerCase().includes(term)) ||
+      (c.rarity && c.rarity.toLowerCase().includes(term)) ||
+      (c.hp !== undefined && c.hp.toString().includes(term))
+    );
   }
 
   openDetail(card: PokemonCard) {

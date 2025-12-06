@@ -8,6 +8,9 @@ import { PhotoService } from '../services/photo.service';
 import { CardStorageService } from '../services/card-storage.service';
 import { PokemonCard } from '../models/pokemon-card.model';
 
+import { Camera, CameraResultType } from '@capacitor/camera';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+
 @Component({
   selector: 'app-tab2',
   standalone: true,
@@ -30,30 +33,32 @@ export class Tab2Page {
   ) { }
 
   async ionViewWillEnter() {
-    // načítame existujúce fotky (nie je nutné, ale neuškodí)
     await this.photoService.loadSaved();
   }
 
   async takePhoto() {
-    console.log('Klik na ODFOTIŤ KARTIČKU');  // 👈 pomocný log
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Base64,
+    });
 
-    try {
-      await this.photoService.addNewToGallery();
-      const photo = this.photoService.photos[0];
+    const fileName = `${new Date().getTime()}.jpeg`;
 
-      if (!photo) {
-        alert('Žiadna fotka sa nevrátila');
-        return;
-      }
+    // uloženie súboru do permanentného úložiska
+    await Filesystem.writeFile({
+      path: fileName,
+      data: image.base64String!,
+      directory: Directory.Data,
+    });
 
-      this.previewPath = photo.webviewPath;
-      this.lastPhotoFilePath = photo.filepath;
+    // získanie URI použiteľného v aplikácii
+    const savedImage = await Filesystem.getUri({
+      path: fileName,
+      directory: Directory.Data,
+    });
 
-      console.log('Foto OK', photo);
-    } catch (err) {
-      console.error('Chyba pri fotení/výbere fotky', err);
-      alert('Nepodarilo sa získať fotku. Pozri konzolu pre viac info.');
-    }
+    this.previewPath = savedImage.uri; // → toto zobrazíš v HTML
   }
 
   async onSave() {
