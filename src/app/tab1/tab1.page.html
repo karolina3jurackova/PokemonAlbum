@@ -19,17 +19,23 @@
     </div>
 
     <!-- EMPTY STATE -->
-    <div *ngIf="filteredCards.length === 0" class="empty">
+    @if (filteredCards.length === 0) {
+    <div class="empty">
       Zatiaľ tu nemáš žiadne kartičky.<br />
       Pridaj svojho prvého pokémona! &lt;3
     </div>
+    }
 
     <!-- GRID S KARTAMI -->
-    <div class="grid" *ngIf="filteredCards.length > 0">
-      <button class="card-btn" *ngFor="let card of filteredCards" (click)="openDetail(card)">
+    @if (filteredCards.length > 0) {
+    <div class="grid">
+      @for (card of filteredCards; track card) {
+      <button class="card-btn" (click)="openDetail(card)">
         <img [src]="card.imageWebviewPath" class="card-img" />
       </button>
+      }
     </div>
+    }
 
   </div>
 </ion-content>

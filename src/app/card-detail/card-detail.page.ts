@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { IonicModule } from '@ionic/angular';
-import { ActivatedRoute, Router } from '@angular/router';   // 👈 Router
+import { ActivatedRoute, Router } from '@angular/router';
 import { CardStorageService } from '../services/card-storage.service';
 import { PokemonCard } from '../models/pokemon-card.model';
 
@@ -10,14 +10,14 @@ import { PokemonCard } from '../models/pokemon-card.model';
     standalone: true,
     templateUrl: './card-detail.page.html',
     styleUrls: ['./card-detail.page.scss'],
-    imports: [CommonModule, IonicModule],
+    imports: [IonicModule],
 })
 export class CardDetailPage {
     card?: PokemonCard;
 
     constructor(
         private route: ActivatedRoute,
-        private router: Router,                 // 👈 injektuj Router
+        private router: Router,
         private cardStorage: CardStorageService
     ) { }
 
@@ -39,7 +39,6 @@ export class CardDetailPage {
 
         await this.cardStorage.delete(this.card.uuid);
 
-        // návrat na zoznam
         this.router.navigate(['/tabs', 'tab1']);
     }
 }

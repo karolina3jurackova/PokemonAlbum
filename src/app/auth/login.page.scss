@@ -1,0 +1,122 @@
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f2e8ff;
+    padding: 40px 0 0;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* TOP – pastelová fialová + plyšiak + WELCOME text */
+.auth-top {
+    background: #f2e8ff;
+    padding: 5px 24px 12px;
+    text-align: center;
+}
+
+.auth-creature {
+    width: 200px;
+    max-width: 80%;
+    display: block;
+    margin: 0 auto 5px;
+}
+
+.auth-title {
+    margin: 0;
+    font-size: 28px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #343a6a;
+    font-weight: 800;
+}
+
+.auth-subtitle {
+    margin: 10px auto 0;
+    max-width: 260px;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: #6d75a1;
+}
+
+/* BIELA DOLNÁ ČASŤ S INPUTMI */
+.auth-sheet {
+    background: #ffffff;
+    border-radius: 32px 32px 0 0;
+    margin-top: 10px;
+    box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.08);
+    flex: 1;
+    display: flex;
+}
+
+.sheet-inner {
+    padding: 24px 20px 22px;
+    width: 100%;
+}
+
+/* Input bieleho obdĺžnika */
+.field-card {
+    background: #f3ecff;
+    border-radius: 999px;
+    padding: 12px 18px;
+    margin-bottom: 14px;
+}
+
+.field-input {
+    --background: transparent;
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --color: #4a4a6a;
+    --placeholder-color: #6152b3;
+    font-size: 13px;
+}
+
+/* Error text */
+.error {
+    margin: 2px 0 10px;
+    font-size: 11px;
+    color: #ef4444;
+    text-align: center;
+}
+
+/* Primárne tlačidlo LOGIN/REGISTER */
+ion-button {
+    --border-radius: 999px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
+.primary-btn {
+    --background: #7c4dff;
+    --background-hover: #6b3dff;
+    --background-activated: #5c33e6;
+    --color: #ffffff;
+    box-shadow: 0 16px 26px rgba(98, 55, 232, 0.65);
+    margin-top: 8px;
+}
+
+/* Textový prepínač login/register dole */
+.switch-text {
+    margin: 14px 0 0;
+    font-size: 12px;
+    text-align: center;
+    color: #182f6e;
+    cursor: pointer;
+}
+
+.switch-text:hover {
+    text-decoration: underline;
+}

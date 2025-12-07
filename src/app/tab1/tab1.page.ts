@@ -1,6 +1,6 @@
 // src/app/tab1/tab1.page.ts
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ import { PokemonCard } from '../models/pokemon-card.model';
   standalone: true,
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [CommonModule, FormsModule, IonicModule],
+  imports: [FormsModule, IonicModule],
 })
 export class Tab1Page {
   cards: PokemonCard[] = [];
@@ -29,7 +29,6 @@ export class Tab1Page {
     this.cards = this.cardStorage.cards;
   }
 
-  // volá sa zo searchbaru
   onSearch(event: CustomEvent) {
     this.searchTerm = (event.detail?.value || '').toString();
   }

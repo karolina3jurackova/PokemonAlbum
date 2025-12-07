@@ -4,7 +4,7 @@ export interface PokemonCard {
     type: string;
     rarity: string;
     hp: number;
-    imageFilePath?: string;
-    imageWebviewPath?: string;
+    imageFilePath?: string | null;
+    imageWebviewPath?: string | null;
     createdAt: number;
 }

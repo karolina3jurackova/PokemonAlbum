@@ -42,9 +42,11 @@
         </div>
 
         <!-- náhľad fotky (voliteľný, nie je v predlohe, ale necháme ho) -->
-        <div class="preview-wrapper" *ngIf="previewPath">
-          <ion-img [src]="previewPath" class="preview-image"></ion-img>
-        </div>
+        @if (previewPath) {
+          <div class="preview-wrapper">
+            <ion-img [src]="previewPath" class="preview-image"></ion-img>
+          </div>
+        }
 
         <!-- tlačidlá -->
         <div class="buttons-wrapper">

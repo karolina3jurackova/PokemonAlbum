@@ -1,0 +1,51 @@
+<ion-content [fullscreen]="true">
+    <div class="auth-wrapper">
+        <div class="auth-card">
+
+            <!-- TOP ČASŤ S PUFFOM -->
+            <div class="auth-top">
+                <img src="assets/puff.png" alt="Cute creature" class="auth-creature" />
+
+                <h1 class="auth-title">
+                    {{ mode === 'login' ? 'WELCOME!' : 'CREATE ACCOUNT' }}
+                </h1>
+
+                <p class="auth-subtitle">
+                    {{ mode === 'login'
+                    ? 'START COLLECTING CARDS RIGHT AFTER LOGGING IN'
+                    : 'START COLLECTING CARDS RIGHT AFTER SIGNING UP' }}
+                </p>
+            </div>
+
+            <!-- BIELA KARTA S FORMULÁROM -->
+            <section class="auth-sheet">
+                <div class="sheet-inner">
+
+                    <div class="field-card">
+                        <ion-input class="field-input" [(ngModel)]="email" name="email" type="email"
+                            placeholder="Email">
+                        </ion-input>
+                    </div>
+
+                    <div class="field-card">
+                        <ion-input class="field-input" [(ngModel)]="password" name="password" type="password"
+                            placeholder="Password">
+                        </ion-input>
+                    </div>
+
+                    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+                    <ion-button expand="block" class="primary-btn" (click)="onSubmit()">
+                        {{ mode === 'login' ? 'LOGIN' : 'REGISTER' }}
+                    </ion-button>
+
+                    <p class="switch-text" (click)="toggleMode()">
+                        {{ mode === 'login'
+                        ? "Don't have an account? Create one"
+                        : "Already have an account? Login" }}
+                    </p>
+                </div>
+            </section>
+        </div>
+    </div>
+</ion-content>

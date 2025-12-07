@@ -1,61 +1,55 @@
 <ion-header [translucent]="true">
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
-        </ion-buttons>
-        <ion-title>{{ card?.name || 'Detail karty' }}</ion-title>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ card?.name || 'Detail karty' }}</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-    <ng-container *ngIf="card as c; else noCard">
-        <div class="detail-page">
-
-            <!-- HORNÁ FIALOVÁ OBLASŤ S KARTOU -->
-            <section class="hero-section">
-                <div class="card-slot">
-                    <ion-img *ngIf="c.imageWebviewPath" [src]="c.imageWebviewPath" class="card-image">
-                    </ion-img>
-                </div>
-            </section>
-
-            <!-- SPODNÝ BIELY/KRÉMOVÝ SHEET S INFO -->
-            <section class="info-sheet">
-                <div class="sheet-header">
-                    <div>
-                        <h1 class="card-name">{{ c.name }}</h1>
-                        <p class="card-subtitle">Pokémon kartička</p>
-                    </div>
-                </div>
-
-                <div class="chips-row">
-                    <span class="chip type">Typ: {{ c.type }}</span>
-                    <span class="chip rarity">Rarita: {{ c.rarity }}</span>
-                </div>
-
-                <p class="card-description">
-                    Tvoja vlastná zberateľská Pokémon karta s vlastným názvom, typom,
-                    raritou a HP. Uchovaj si prehľad o svojom albume priamo v mobile.
-                </p>
-
-                <div class="sheet-bottom-row">
-                    <div class="hp-pill">
-                        <span class="hp-label">HP</span>
-                        <span class="hp-value">{{ c.hp }}</span>
-                    </div>
-
-                    <ion-button class="delete-button" color="danger" (click)="deleteCard()">
-                        Vymazať kartičku
-                    </ion-button>
-                </div>
-            </section>
-
+  @if (card; as c) {
+    <div class="detail-page">
+      <!-- HORNÁ FIALOVÁ OBLASŤ S KARTOU -->
+      <section class="hero-section">
+        <div class="card-slot">
+          @if (c.imageWebviewPath) {
+            <ion-img [src]="c.imageWebviewPath" class="card-image">
+            </ion-img>
+          }
         </div>
-    </ng-container>
-
-    <ng-template #noCard>
-        <div class="detail-page">
-            <p>Táto karta sa nenašla.</p>
+      </section>
+      <!-- SPODNÝ BIELY/KRÉMOVÝ SHEET S INFO -->
+      <section class="info-sheet">
+        <div class="sheet-header">
+          <div>
+            <h1 class="card-name">{{ c.name }}</h1>
+            <p class="card-subtitle">Pokémon kartička</p>
+          </div>
         </div>
-    </ng-template>
+        <div class="chips-row">
+          <span class="chip type">Typ: {{ c.type }}</span>
+          <span class="chip rarity">Rarita: {{ c.rarity }}</span>
+        </div>
+        <p class="card-description">
+          Tvoja vlastná zberateľská Pokémon karta s vlastným názvom, typom,
+          raritou a HP. Uchovaj si prehľad o svojom albume priamo v mobile.
+        </p>
+        <div class="sheet-bottom-row">
+          <div class="hp-pill">
+            <span class="hp-label">HP</span>
+            <span class="hp-value">{{ c.hp }}</span>
+          </div>
+          <ion-button class="delete-button" color="danger" (click)="deleteCard()">
+            Vymazať kartičku
+          </ion-button>
+        </div>
+      </section>
+    </div>
+  } @else {
+    <div class="detail-page">
+      <p>Táto karta sa nenašla.</p>
+    </div>
+  }
+
 </ion-content>

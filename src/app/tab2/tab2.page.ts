@@ -1,22 +1,37 @@
-// src/app/tab2/tab2.page.ts
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
+import { CardCloudService } from '../services/card-cloud.service';
+
+import {
+  IonHeader,
+  IonContent,
+  IonInput,
+  IonButton,
+  IonImg,
+} from '@ionic/angular/standalone';
 
 import { PhotoService } from '../services/photo.service';
 import { CardStorageService } from '../services/card-storage.service';
 import { PokemonCard } from '../models/pokemon-card.model';
 
-import { Camera, CameraResultType } from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Capacitor } from '@capacitor/core';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
   standalone: true,
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
-  imports: [CommonModule, IonicModule, FormsModule],
+  imports: [
+    IonHeader,
+    IonContent,
+    IonInput,
+    IonButton,
+    IonImg,
+    FormsModule,
+  ],
 })
 export class Tab2Page {
   name = '';
@@ -24,43 +39,93 @@ export class Tab2Page {
   rarity = '';
   hp: number | null = null;
 
-  previewPath?: string;
-  lastPhotoFilePath?: string;
+  previewPath: string | null = null;
+  lastPhotoFilePath: string | null = null;
 
   constructor(
     private photoService: PhotoService,
-    private cardStorage: CardStorageService
+    private cardStorage: CardStorageService,
+    private cardCloud: CardCloudService,
+    private platform: Platform
   ) { }
 
   async ionViewWillEnter() {
     await this.photoService.loadSaved();
   }
 
+  // ====== FOTO – WEB + MOBIL ======
   async takePhoto() {
+    const isHybrid = this.platform.is('hybrid');
+
     const image = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
-      resultType: CameraResultType.Base64,
+      // hybrid: dostaneme path/webPath, web: priamo dataUrl
+      resultType: isHybrid ? CameraResultType.Uri : CameraResultType.DataUrl,
+      // hybrid: Prompt (kamera + galéria), web: iba Photos (file picker)
+      source: isHybrid ? CameraSource.Prompt : CameraSource.Photos,
     });
 
-    const fileName = `${new Date().getTime()}.jpeg`;
-
-    // uloženie súboru do permanentného úložiska
-    await Filesystem.writeFile({
-      path: fileName,
-      data: image.base64String!,
-      directory: Directory.Data,
-    });
-
-    // získanie URI použiteľného v aplikácii
-    const savedImage = await Filesystem.getUri({
-      path: fileName,
-      directory: Directory.Data,
-    });
-
-    this.previewPath = savedImage.uri; // → toto zobrazíš v HTML
+    if (isHybrid) {
+      // natívna appka – uložíme do filesystemu a dostaneme webviewPath
+      const saved = await this.savePicture(image);
+      this.lastPhotoFilePath = saved.filepath;
+      this.previewPath = saved.webviewPath;
+    } else {
+      // web – stačí dataUrl, nič nepíšeme do filesystemu
+      this.previewPath = image.dataUrl ?? null;
+      this.lastPhotoFilePath = null;
+    }
   }
 
+  // používa sa len v natívnej appke (hybrid)
+  private async savePicture(photo: { path?: string; webPath?: string | null }) {
+    let base64Data: string | Blob;
+
+    if (this.platform.is('hybrid')) {
+      // iOS/Android – čítame súbor z filesystemu
+      const file = await Filesystem.readFile({
+        path: photo.path!,
+      });
+      base64Data = file.data;
+    } else {
+      // (rezerva – na webe túto vetvu pri súčasnom nastavení nevoláme)
+      const response = await fetch(photo.webPath!);
+      const blob = await response.blob();
+      base64Data = (await this.convertBlobToBase64(blob)) as string;
+    }
+
+    const fileName = `${Date.now()}.jpeg`;
+
+    const savedFile = await Filesystem.writeFile({
+      path: fileName,
+      data: base64Data,
+      directory: Directory.Data,
+    });
+
+    if (this.platform.is('hybrid')) {
+      return {
+        filepath: savedFile.uri,
+        webviewPath: Capacitor.convertFileSrc(savedFile.uri),
+      };
+    } else {
+      return {
+        filepath: fileName,
+        webviewPath: photo.webPath!,
+      };
+    }
+  }
+
+  private convertBlobToBase64(blob: Blob): Promise<string | ArrayBuffer | null> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  // ====== ULOŽENIE KARTY ======
   async onSave() {
     if (
       !this.name.trim() ||
@@ -84,12 +149,14 @@ export class Tab2Page {
     };
 
     await this.cardStorage.add(card);
+    await this.cardCloud.saveCard(card);
 
+    // reset formulára
     this.name = '';
     this.type = '';
     this.rarity = '';
     this.hp = null;
-    this.previewPath = undefined;
-    this.lastPhotoFilePath = undefined;
+    this.previewPath = null;
+    this.lastPhotoFilePath = null;
   }
 }

@@ -1,4 +1,3 @@
-// src/app/services/photo.service.ts
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Capacitor } from '@capacitor/core';
