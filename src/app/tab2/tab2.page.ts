@@ -83,13 +83,11 @@ export class Tab2Page {
     let base64Data: string | Blob;
 
     if (this.platform.is('hybrid')) {
-      // iOS/Android – čítame súbor z filesystemu
       const file = await Filesystem.readFile({
         path: photo.path!,
       });
       base64Data = file.data;
     } else {
-      // (rezerva – na webe túto vetvu pri súčasnom nastavení nevoláme)
       const response = await fetch(photo.webPath!);
       const blob = await response.blob();
       base64Data = (await this.convertBlobToBase64(blob)) as string;

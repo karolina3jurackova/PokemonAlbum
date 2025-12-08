@@ -1,9 +1,11 @@
-// src/app/tab1/tab1.page.ts
 import { Component } from '@angular/core';
-
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
+
+import {
+  IonContent,
+  IonSearchbar,
+} from '@ionic/angular/standalone';
 
 import { CardStorageService } from '../services/card-storage.service';
 import { PokemonCard } from '../models/pokemon-card.model';
@@ -13,7 +15,11 @@ import { PokemonCard } from '../models/pokemon-card.model';
   standalone: true,
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [FormsModule, IonicModule],
+  imports: [
+    IonContent,
+    IonSearchbar,
+    FormsModule,
+  ],
 })
 export class Tab1Page {
   cards: PokemonCard[] = [];
@@ -29,11 +35,6 @@ export class Tab1Page {
     this.cards = this.cardStorage.cards;
   }
 
-  onSearch(event: CustomEvent) {
-    this.searchTerm = (event.detail?.value || '').toString();
-  }
-
-  // karty zobrazené v gride
   get filteredCards(): PokemonCard[] {
     const term = this.searchTerm.toLowerCase().trim();
     if (!term) return this.cards;

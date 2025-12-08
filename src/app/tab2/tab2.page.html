@@ -2,14 +2,14 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="tab2-page">
+  <div class="tab2-wrapper">
 
     <!-- HORNÁ ČASŤ – tréner + nadpis -->
-    <div class="tab2-top">
+    <div class="tab2-hero">
       <img src="assets/trainer.png" alt="Pokémon tréner" class="trainer-hero" />
 
       <h1 class="tab2-title">
-        Pridaj Pokémon kartičku
+        New Pokémon card
       </h1>
     </div>
 
@@ -19,19 +19,19 @@
 
         <!-- Názov -->
         <div class="field-card">
-          <ion-input class="field-input" [(ngModel)]="name" name="name" placeholder="Názov Pokémona">
+          <ion-input class="field-input" [(ngModel)]="name" name="name" placeholder="Name of Pokémon">
           </ion-input>
         </div>
 
         <!-- Typ -->
         <div class="field-card">
-          <ion-input class="field-input" [(ngModel)]="type" name="type" placeholder="Typ">
+          <ion-input class="field-input" [(ngModel)]="type" name="type" placeholder="Type">
           </ion-input>
         </div>
 
         <!-- Rarita -->
         <div class="field-card">
-          <ion-input class="field-input" [(ngModel)]="rarity" name="rarity" placeholder="Rarita">
+          <ion-input class="field-input" [(ngModel)]="rarity" name="rarity" placeholder="Rare">
           </ion-input>
         </div>
 
@@ -41,21 +41,21 @@
           </ion-input>
         </div>
 
-        <!-- náhľad fotky (voliteľný, nie je v predlohe, ale necháme ho) -->
+        <!-- náhľad fotky (voliteľný) -->
         @if (previewPath) {
-          <div class="preview-wrapper">
-            <ion-img [src]="previewPath" class="preview-image"></ion-img>
-          </div>
+        <div class="preview-wrapper">
+          <ion-img [src]="previewPath" class="preview-image"></ion-img>
+        </div>
         }
 
         <!-- tlačidlá -->
         <div class="buttons-wrapper">
           <ion-button type="button" fill="outline" expand="block" (click)="takePhoto()">
-            Odfotiť / vybrať fotku
+            TAKE / SELECT PHOTO
           </ion-button>
 
           <ion-button expand="block" class="save-button" (click)="onSave()">
-            Uložiť kartu
+            SAVE
           </ion-button>
         </div>
 

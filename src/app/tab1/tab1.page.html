@@ -9,7 +9,7 @@
 
     <!-- SEARCH + CARDS UŽ MIMO HERO, POD FIALOVÝM BLOKOM -->
     <div class="search-block">
-      <ion-searchbar [(ngModel)]="searchTerm" placeholder="Hľadaj podľa mena..." class="search-input">
+      <ion-searchbar [(ngModel)]="searchTerm" placeholder="Search by name..." class="search-input">
       </ion-searchbar>
 
       <div class="card-count">
@@ -21,8 +21,8 @@
     <!-- EMPTY STATE -->
     @if (filteredCards.length === 0) {
     <div class="empty">
-      Zatiaľ tu nemáš žiadne kartičky.<br />
-      Pridaj svojho prvého pokémona! &lt;3
+      You don't have any cards here yet.<br />
+      Add your first Pokémon! &lt;3
     </div>
     }
 

@@ -9,47 +9,47 @@
 
 <ion-content [fullscreen]="true">
   @if (card; as c) {
-    <div class="detail-page">
-      <!-- HORNÁ FIALOVÁ OBLASŤ S KARTOU -->
-      <section class="hero-section">
-        <div class="card-slot">
-          @if (c.imageWebviewPath) {
-            <ion-img [src]="c.imageWebviewPath" class="card-image">
-            </ion-img>
-          }
+  <div class="detail-page">
+    <!-- HORNÁ FIALOVÁ OBLASŤ S KARTOU -->
+    <section class="hero-section">
+      <div class="card-slot">
+        @if (c.imageWebviewPath) {
+        <ion-img [src]="c.imageWebviewPath" class="card-image">
+        </ion-img>
+        }
+      </div>
+    </section>
+    <!-- SPODNÝ BIELY/KRÉMOVÝ SHEET S INFO -->
+    <section class="info-sheet">
+      <div class="sheet-header">
+        <div>
+          <h1 class="card-name">{{ c.name }}</h1>
+          <p class="card-subtitle">Pokémon card</p>
         </div>
-      </section>
-      <!-- SPODNÝ BIELY/KRÉMOVÝ SHEET S INFO -->
-      <section class="info-sheet">
-        <div class="sheet-header">
-          <div>
-            <h1 class="card-name">{{ c.name }}</h1>
-            <p class="card-subtitle">Pokémon kartička</p>
-          </div>
+      </div>
+      <div class="chips-row">
+        <span class="chip type">Type: {{ c.type }}</span>
+        <span class="chip rarity">Rare: {{ c.rarity }}</span>
+      </div>
+      <p class="card-description">
+        Born from ancient magic, this card carries a destiny of its own, a tale that unfolds and writes itself into the
+        heart of your album.
+      </p>
+      <div class="sheet-bottom-row">
+        <div class="hp-pill">
+          <span class="hp-label">HP</span>
+          <span class="hp-value">{{ c.hp }}</span>
         </div>
-        <div class="chips-row">
-          <span class="chip type">Typ: {{ c.type }}</span>
-          <span class="chip rarity">Rarita: {{ c.rarity }}</span>
-        </div>
-        <p class="card-description">
-          Tvoja vlastná zberateľská Pokémon karta s vlastným názvom, typom,
-          raritou a HP. Uchovaj si prehľad o svojom albume priamo v mobile.
-        </p>
-        <div class="sheet-bottom-row">
-          <div class="hp-pill">
-            <span class="hp-label">HP</span>
-            <span class="hp-value">{{ c.hp }}</span>
-          </div>
-          <ion-button class="delete-button" color="danger" (click)="deleteCard()">
-            Vymazať kartičku
-          </ion-button>
-        </div>
-      </section>
-    </div>
+        <ion-button class="delete-button" color="danger" (click)="deleteCard()">
+          Delete card
+        </ion-button>
+      </div>
+    </section>
+  </div>
   } @else {
-    <div class="detail-page">
-      <p>Táto karta sa nenašla.</p>
-    </div>
+  <div class="detail-page">
+    <p>Táto karta sa nenašla.</p>
+  </div>
   }
 
 </ion-content>
