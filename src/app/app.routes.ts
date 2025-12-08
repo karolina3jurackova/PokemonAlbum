@@ -29,13 +29,11 @@ export const routes: Routes = [
       { path: '', pathMatch: 'full', redirectTo: 'tab1' },
     ],
   },
-
   {
     path: 'card/:id',
     loadComponent: () =>
       import('./card-detail/card-detail.page').then(m => m.CardDetailPage),
   },
-
   { path: '', pathMatch: 'full', redirectTo: 'login' },
   { path: '**', redirectTo: 'login' },
 ];

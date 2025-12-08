@@ -1,3 +1,4 @@
+// src/app/tab1/tab1.page.ts
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -7,8 +8,9 @@ import {
   IonSearchbar,
 } from '@ionic/angular/standalone';
 
-import { CardStorageService } from '../services/card-storage.service';
 import { PokemonCard } from '../models/pokemon-card.model';
+import { CardCloudService } from '../services/card-cloud.service';
+import { CardStorageService } from '../services/card-storage.service';
 
 @Component({
   selector: 'app-tab1',
@@ -26,13 +28,22 @@ export class Tab1Page {
   searchTerm = '';
 
   constructor(
+    private cardCloud: CardCloudService,
     private cardStorage: CardStorageService,
     private router: Router
   ) { }
 
   async ionViewWillEnter() {
-    await this.cardStorage.load();
-    this.cards = this.cardStorage.cards;
+    try {
+      this.cards = await this.cardCloud.loadCards();
+      console.log('[TAB1] Loaded cards from cloud:', this.cards.length);
+
+      await this.cardStorage.replaceAll(this.cards);
+    } catch (err) {
+      console.error('[TAB1] Error loading cards from cloud:', err);
+      this.cards = [];
+      await this.cardStorage.replaceAll([]);
+    }
   }
 
   get filteredCards(): PokemonCard[] {

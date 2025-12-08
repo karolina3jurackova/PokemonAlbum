@@ -1,7 +1,12 @@
-// src/app/firebase.config.ts
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import {
+    getAuth,
+    initializeAuth,
+    inMemoryPersistence,
+} from 'firebase/auth';
+
+import { Capacitor } from '@capacitor/core';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCqgVferX_EuQsirxDkTn98BU7_yh84T3E",
@@ -16,4 +21,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
-export const auth = getAuth(app);
+export const auth = Capacitor.isNativePlatform()
+    ? initializeAuth(app, {
+        persistence: inMemoryPersistence,
+    })
+    : getAuth(app);

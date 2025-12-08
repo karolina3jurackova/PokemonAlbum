@@ -1,4 +1,3 @@
-// src/app/services/card-storage.service.ts
 import { Injectable } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 import { PokemonCard } from '../models/pokemon-card.model';
@@ -34,6 +33,11 @@ export class CardStorageService {
 
     async clear() {
         this.cards = [];
+        await Preferences.remove({ key: KEY });
+    }
+
+    async replaceAll(cards: PokemonCard[]) {
+        this.cards = cards;
         await this.save();
     }
 }

@@ -7,4 +7,5 @@ export interface PokemonCard {
     imageFilePath?: string | null;
     imageWebviewPath?: string | null;
     createdAt: number;
+    ownerId?: string | null;
 }

@@ -18,6 +18,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Capacitor } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-tab2',
@@ -46,7 +47,8 @@ export class Tab2Page {
     private photoService: PhotoService,
     private cardStorage: CardStorageService,
     private cardCloud: CardCloudService,
-    private platform: Platform
+    private platform: Platform,
+    private auth: AuthService
   ) { }
 
   async ionViewWillEnter() {
@@ -144,6 +146,7 @@ export class Tab2Page {
       imageFilePath: this.lastPhotoFilePath,
       imageWebviewPath: this.previewPath,
       createdAt: Date.now(),
+      ownerId: this.auth.currentUserId ?? null,
     };
 
     await this.cardStorage.add(card);
