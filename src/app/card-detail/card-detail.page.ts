@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-
 import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { CardStorageService } from '../services/card-storage.service';
+import { CardCloudService } from '../services/card-cloud.service';
 import { PokemonCard } from '../models/pokemon-card.model';
 
 @Component({
@@ -18,7 +19,8 @@ export class CardDetailPage {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private cardStorage: CardStorageService
+        private cardStorage: CardStorageService,
+        private cardCloud: CardCloudService
     ) { }
 
     async ionViewWillEnter() {
@@ -30,14 +32,15 @@ export class CardDetailPage {
     }
 
     async deleteCard() {
-        if (!this.card) {
-            return;
-        }
+        if (!this.card) return;
 
         const ok = confirm(`Naozaj chceš zmazať kartičku „${this.card.name}“?`);
         if (!ok) return;
 
+
         await this.cardStorage.delete(this.card.uuid);
+
+        await this.cardCloud.deleteCard(this.card.uuid);
 
         this.router.navigate(['/tabs', 'tab1']);
     }

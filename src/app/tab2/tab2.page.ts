@@ -15,9 +15,6 @@ import { CardStorageService } from '../services/card-storage.service';
 import { PokemonCard } from '../models/pokemon-card.model';
 
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { Filesystem, Directory } from '@capacitor/filesystem';
-import { Capacitor } from '@capacitor/core';
-import { Platform } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -40,14 +37,13 @@ export class Tab2Page {
   rarity = '';
   hp: number | null = null;
 
+  // tu bude priamo data URL (base64) – rovnaké na všetkých zariadeniach
   previewPath: string | null = null;
-  lastPhotoFilePath: string | null = null;
 
   constructor(
     private photoService: PhotoService,
     private cardStorage: CardStorageService,
     private cardCloud: CardCloudService,
-    private platform: Platform,
     private auth: AuthService
   ) { }
 
@@ -55,74 +51,18 @@ export class Tab2Page {
     await this.photoService.loadSaved();
   }
 
-  // ====== FOTO – WEB + MOBIL ======
+  // ====== FOTO – WEB + iOS/Android (base64 + zmenšené) ======
   async takePhoto() {
-    const isHybrid = this.platform.is('hybrid');
-
     const image = await Camera.getPhoto({
-      quality: 90,
+      quality: 60,
       allowEditing: false,
-      // hybrid: dostaneme path/webPath, web: priamo dataUrl
-      resultType: isHybrid ? CameraResultType.Uri : CameraResultType.DataUrl,
-      // hybrid: Prompt (kamera + galéria), web: iba Photos (file picker)
-      source: isHybrid ? CameraSource.Prompt : CameraSource.Photos,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Prompt,
+      width: 800,
     });
 
-    if (isHybrid) {
-      // natívna appka – uložíme do filesystemu a dostaneme webviewPath
-      const saved = await this.savePicture(image);
-      this.lastPhotoFilePath = saved.filepath;
-      this.previewPath = saved.webviewPath;
-    } else {
-      // web – stačí dataUrl, nič nepíšeme do filesystemu
-      this.previewPath = image.dataUrl ?? null;
-      this.lastPhotoFilePath = null;
-    }
-  }
-
-  // používa sa len v natívnej appke (hybrid)
-  private async savePicture(photo: { path?: string; webPath?: string | null }) {
-    let base64Data: string | Blob;
-
-    if (this.platform.is('hybrid')) {
-      const file = await Filesystem.readFile({
-        path: photo.path!,
-      });
-      base64Data = file.data;
-    } else {
-      const response = await fetch(photo.webPath!);
-      const blob = await response.blob();
-      base64Data = (await this.convertBlobToBase64(blob)) as string;
-    }
-
-    const fileName = `${Date.now()}.jpeg`;
-
-    const savedFile = await Filesystem.writeFile({
-      path: fileName,
-      data: base64Data,
-      directory: Directory.Data,
-    });
-
-    if (this.platform.is('hybrid')) {
-      return {
-        filepath: savedFile.uri,
-        webviewPath: Capacitor.convertFileSrc(savedFile.uri),
-      };
-    } else {
-      return {
-        filepath: fileName,
-        webviewPath: photo.webPath!,
-      };
-    }
-  }
-
-  private convertBlobToBase64(blob: Blob): Promise<string | ArrayBuffer | null> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onerror = reject;
-      reader.onload = () => resolve(reader.result);
-      reader.readAsDataURL(blob);
-    });
+    // výsledok: "data:image/jpeg;base64,AAAA..."
+    this.previewPath = image.dataUrl ?? null;
   }
 
   // ====== ULOŽENIE KARTY ======
@@ -137,18 +77,26 @@ export class Tab2Page {
       return;
     }
 
+    if (!this.previewPath) {
+      const ok = confirm(
+        'Nemáš pridanú fotku. Naozaj chceš uložiť kartu bez obrázka?'
+      );
+      if (!ok) return;
+    }
+
     const card: PokemonCard = {
       uuid: crypto.randomUUID(),
       name: this.name.trim(),
       type: this.type.trim(),
       rarity: this.rarity.trim(),
       hp: this.hp,
-      imageFilePath: this.lastPhotoFilePath,
+      imageFilePath: null,
       imageWebviewPath: this.previewPath,
       createdAt: Date.now(),
       ownerId: this.auth.currentUserId ?? null,
     };
 
+    // uložiť lokálne (na offline) + do Firestore
     await this.cardStorage.add(card);
     await this.cardCloud.saveCard(card);
 
@@ -158,6 +106,5 @@ export class Tab2Page {
     this.rarity = '';
     this.hp = null;
     this.previewPath = null;
-    this.lastPhotoFilePath = null;
   }
 }
