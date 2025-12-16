@@ -37,7 +37,6 @@ export class Tab2Page {
   rarity = '';
   hp: number | null = null;
 
-  // tu bude priamo data URL (base64) – rovnaké na všetkých zariadeniach
   previewPath: string | null = null;
 
   constructor(
@@ -61,7 +60,6 @@ export class Tab2Page {
       width: 800,
     });
 
-    // výsledok: "data:image/jpeg;base64,AAAA..."
     this.previewPath = image.dataUrl ?? null;
   }
 
